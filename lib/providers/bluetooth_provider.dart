@@ -61,8 +61,13 @@ class BluetoothProvider extends ChangeNotifier {
   Future<bool> discoverServices(BluetoothDevice device) async {
     try {
       List<BluetoothService> services = await device.discoverServices();
-      var service = services.where((sv) => sv.uuid == Guid.fromString('ffe0')).first;
-      var char = service.characteristics.where((ch) => ch.uuid == Guid.fromString('ffe1')).first;
+      // for (BluetoothService service in services) {
+      //   for (BluetoothCharacteristic characteristic in service.characteristics) {
+      //     print(characteristic);
+      //   }
+      // }
+      var service = services.where((sv) => sv.uuid.toString().toLowerCase() == 'ffe0').first;
+      var char = service.characteristics.where((ch) => ch.uuid.toString().toLowerCase() == 'ffe1').first;
       setCharacteristic(char);
       return true;
     } catch (e) {

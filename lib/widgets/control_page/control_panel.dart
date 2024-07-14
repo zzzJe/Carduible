@@ -5,6 +5,7 @@ import 'package:eecamp/widgets/animated_hints/animated_hint_left.dart';
 import 'package:eecamp/widgets/animated_hints/animated_hint_right.dart';
 import 'package:eecamp/widgets/control_page/control_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:eecamp/providers/bluetooth_provider.dart';
 
@@ -23,7 +24,7 @@ class _ControlPanelState extends State<ControlPanel> {
 
   Future<void> sendMessage(String message) async {
     BluetoothProvider bluetooth = Provider.of<BluetoothProvider>(context, listen: false);
-    if (!bluetooth.isDisconnected()) {
+    if (bluetooth.isDisconnected()) {
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -42,13 +43,13 @@ class _ControlPanelState extends State<ControlPanel> {
           );
         }
       );
+      return;
     }
-    else if (bluetooth.characteristic != null) {
-      try {
-        bluetooth.characteristic!.write(message.codeUnits, withoutResponse: true);
-      } catch (e) {
-        debugPrint('Error sending message: $e');
-      }
+    try {
+      BluetoothCharacteristic c = bluetooth.characteristic!;
+      c.write(message.codeUnits, withoutResponse: c.properties.writeWithoutResponse);
+    } catch (e) {
+      debugPrint('Error sending message: $e');
     }
   }
 
