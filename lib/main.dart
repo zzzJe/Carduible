@@ -30,13 +30,13 @@ class InitProvider extends StatelessWidget {
           create: (_) => BluetoothProvider(),
         ),
       ],
-      child: const EECampApp(),
+      child: const MainApp(),
     );
   }
 }
 
-class EECampApp extends StatelessWidget {
-  const EECampApp({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
   
   @override
   Widget build(BuildContext context) {
