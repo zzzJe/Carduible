@@ -25,6 +25,7 @@ Android 11+
 <img src="Screenshot_Permission_Location.jpg" width="216" flex=true>
 <img src="Screenshot_Permission_Nearby_Devices.jpg" width="216" flex=true>
 </div>
+
 ### Step 2: Enable Bluetooth and location services
 ![](Screenshot_Turn_On_Services.jpg)
 ### Step 3: Choose your device to connect
