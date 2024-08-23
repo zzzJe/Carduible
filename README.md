@@ -21,10 +21,10 @@ Android 11+
 
 ## How to use?
 ### Step 1: Allow the Permissions
-<div align="center" flex=true>
-<img src="Screenshot_Permission_Location.jpg" width="216" flex=true margin=50>
+<!-- <div align="center" flex=true> -->
+<img src="Screenshot_Permission_Location.jpg" width="216" flex=true align="center">
 <img src="Screenshot_Permission_Nearby_Devices.jpg" width="216" flex=true>
-</div>
+<!-- </div> -->
 
 ### Step 2: Enable Bluetooth and location services
 ![](Screenshot_Turn_On_Services.jpg)
