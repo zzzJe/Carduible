@@ -24,17 +24,11 @@ Android 11+
 
 ## How to use?
 ### Step 1: Allow the Permissions
-<div align="center" flex=true>
 <img src="Screenshot_Permission_Location.jpg" width="216" flex=true>
 <img src="Screenshot_Permission_Nearby_Devices.jpg" width="216" flex=true>
-</div>
 
 ### Step 2: Enable Bluetooth and location services
-<div align="center" flex=true>
 <img src="Screenshot_Turn_On_Services.jpg" width="216" flex=true>
-</div>
 
 ### Step 3: Choose your device to connect
-<div align="center" flex=true>
 <img src="Screenshot_Device_List.jpg" width="216" flex=true>
-</div>
