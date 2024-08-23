@@ -21,7 +21,7 @@ Android 11+
 
 ## How to use?
 ### Step 1: Allow the Permissions
-![](https://github.com/liuutin9/arduino_car_bluetooth_controller_ble/blob/main/Screenshot_Permission_Location.jpg#pic_left =540x1200)  
+![](https://github.com/liuutin9/arduino_car_bluetooth_controller_ble/blob/main/Screenshot_Permission_Location.jpg =540x)  
 ![](Screenshot_Permission_Nearby_Devices.jpg#pic_left =540x1200)  
 ### Step 2: Enable Bluetooth and location services
 ![](Screenshot_Turn_On_Services.jpg#pic_left =540x1200)
