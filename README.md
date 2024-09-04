@@ -2,8 +2,8 @@
 It is a remote controller of an Arduino car with a BLE board.
 
 ## Download
-Google Play closed test:  
-https://play.google.com/store/apps/details?id=com.liuutin9.arduino_car_bluetooth_controller_ble  
+Google Play:  
+https://play.google.com/store/apps/details?id=com.liuutin9.arduino_car_bluetooth_controller_ble
 
 APK:  
 https://liuutin9.github.io/Shared-Files/eecamp.apk
