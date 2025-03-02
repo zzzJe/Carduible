@@ -1,0 +1,1 @@
+C:\arduino_car_bluetooth_controller_ble\build\app\intermediates\cxx\Debug\07032552\obj\x86_64
