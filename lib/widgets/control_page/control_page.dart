@@ -32,7 +32,17 @@ class ControlPage extends StatelessWidget {
         } else if (snapshot.connectionState == ConnectionState.done && snapshot.hasError) {
           return PopScope(
             canPop: false,
-            onPopInvoked: (bool didPop) async {
+            // onPopInvoked: (bool didPop) async {
+            //   await bluetooth.disconnectFromDevice();
+            //   if (context.mounted) {
+            //     Provider.of<NavigationService>(context, listen: false).goHome();
+            //   }
+            // },
+            // use onPopInvokedWithResult if you need to know if the user popped the scope
+            onPopInvokedWithResult: (bool didPop, Object? result) async {
+              if (didPop) {
+                return;
+              }
               await bluetooth.disconnectFromDevice();
               if (context.mounted) {
                 Provider.of<NavigationService>(context, listen: false).goHome();
@@ -47,7 +57,17 @@ class ControlPage extends StatelessWidget {
         } else {
           return PopScope(
             canPop: false,
-            onPopInvoked: (bool didPop) async {
+            // onPopInvoked: (bool didPop) async {
+            //   await bluetooth.disconnectFromDevice();
+            //   if (context.mounted) {
+            //     Provider.of<NavigationService>(context, listen: false).goHome();
+            //   }
+            // },
+            // use onPopInvokedWithResult if you need to know if the user popped the scope
+            onPopInvokedWithResult: (bool didPop, Object? result) async {
+              if (didPop) {
+                return;
+              }
               await bluetooth.disconnectFromDevice();
               if (context.mounted) {
                 Provider.of<NavigationService>(context, listen: false).goHome();

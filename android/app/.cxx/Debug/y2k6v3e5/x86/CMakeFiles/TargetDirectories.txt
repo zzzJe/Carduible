@@ -1,0 +1,2 @@
+C:/arduino_car_bluetooth_controller_ble/android/app/.cxx/Debug/y2k6v3e5/x86/CMakeFiles/edit_cache.dir
+C:/arduino_car_bluetooth_controller_ble/android/app/.cxx/Debug/y2k6v3e5/x86/CMakeFiles/rebuild_cache.dir

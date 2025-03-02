@@ -3,6 +3,7 @@ import 'package:eecamp/providers/bluetooth_provider.dart';
 import 'package:eecamp/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
@@ -21,6 +22,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   bool isScanning = false;
   late AnimationController _controller;
   late Animation<double> _animation;
+  late BannerAd _bannerAd;
+  bool isBannerAdReady = false;
 
   @override
   void initState() {
@@ -34,12 +37,31 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       curve: Curves.easeInOutQuart,
     ));
     checkPermissions();
+    _bannerAd = BannerAd(
+      adUnitId: 'ca-app-pub-8187370470895414/7308059668',
+      size: AdSize.banner,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          isBannerAdReady = false;
+          ad.dispose();
+          debugPrint('Ad failed to load: $error');
+        },
+      ),
+    );
+    _bannerAd.load();
   }
 
   @override
   void dispose() {
     scanSubscription?.cancel();
     _controller.dispose();
+    _bannerAd.dispose();
     super.dispose();
   }
 
@@ -150,6 +172,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           ),
         ],
       ),
+      bottomNavigationBar: isBannerAdReady
+        ? SizedBox(
+            width: _bannerAd.size.height.toDouble(),
+            height: _bannerAd.size.height.toDouble(),
+            child: AdWidget(ad: _bannerAd),
+          )
+        : null,
     );
   }
 }
