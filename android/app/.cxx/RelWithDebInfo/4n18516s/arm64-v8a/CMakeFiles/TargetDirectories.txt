@@ -1,0 +1,2 @@
+C:/arduino_car_bluetooth_controller_ble/android/app/.cxx/RelWithDebInfo/4n18516s/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/arduino_car_bluetooth_controller_ble/android/app/.cxx/RelWithDebInfo/4n18516s/arm64-v8a/CMakeFiles/rebuild_cache.dir

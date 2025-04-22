@@ -8,6 +8,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 
+String debugDeviceId = 'DebugEECamp';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.context});
   final BuildContext context;
@@ -22,8 +24,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   bool isScanning = false;
   late AnimationController _controller;
   late Animation<double> _animation;
-  late BannerAd _bannerAd;
-  bool isBannerAdReady = false;
 
   @override
   void initState() {
@@ -37,31 +37,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       curve: Curves.easeInOutQuart,
     ));
     checkPermissions();
-    _bannerAd = BannerAd(
-      adUnitId: 'ca-app-pub-8187370470895414/7308059668',
-      size: AdSize.banner,
-      request: const AdRequest(),
-      listener: BannerAdListener(
-        onAdLoaded: (_) {
-          setState(() {
-            isBannerAdReady = true;
-          });
-        },
-        onAdFailedToLoad: (ad, error) {
-          isBannerAdReady = false;
-          ad.dispose();
-          debugPrint('Ad failed to load: $error');
-        },
-      ),
-    );
-    _bannerAd.load();
   }
 
   @override
   void dispose() {
     scanSubscription?.cancel();
     _controller.dispose();
-    _bannerAd.dispose();
     super.dispose();
   }
 
@@ -153,6 +134,42 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                // 如果是最後一個 index，就顯示 debug item
+                if (index == 0) {
+                  return ListTile(
+                    title: const Text('🛠 Debug'),
+                    subtitle: const Text('Enter debugging mode'),
+                    trailing: const Icon(Icons.bug_report),
+                    tileColor: Theme.of(context).colorScheme.surfaceContainer,
+                    onTap: () {
+                      Provider.of<NavigationService>(context, listen: false)
+                          .goControlPanel(deviceId: debugDeviceId);
+                    },
+                  );
+                }
+
+                // 否則就顯示一般裝置
+                final device = devicesList[index - 1];
+                return ListTile(
+                  title: Text(device.platformName),
+                  subtitle: Text(device.remoteId.toString()),
+                  trailing: const Icon(Icons.bluetooth),
+                  tileColor: Theme.of(context).colorScheme.surfaceContainer,
+                  onTap: () {
+                    Provider.of<BluetoothProvider>(context, listen: false)
+                        .setSelectedDevice(device);
+                    Provider.of<NavigationService>(context, listen: false)
+                        .goControlPanel(deviceId: device.remoteId.toString());
+                  },
+                );
+              },
+              childCount: devicesList.length + 1, // 多加一個 for debug
+            ),
+          ),
+
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
               childCount: devicesList.length,
               (context, index) {
                 return ListTile(
@@ -172,13 +189,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           ),
         ],
       ),
-      bottomNavigationBar: isBannerAdReady
-        ? SizedBox(
-            width: _bannerAd.size.height.toDouble(),
-            height: _bannerAd.size.height.toDouble(),
-            child: AdWidget(ad: _bannerAd),
-          )
-        : null,
     );
   }
 }

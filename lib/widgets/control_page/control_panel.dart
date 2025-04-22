@@ -4,8 +4,10 @@ import 'package:eecamp/widgets/animated_hints/animated_hint_forward.dart';
 import 'package:eecamp/widgets/animated_hints/animated_hint_left.dart';
 import 'package:eecamp/widgets/animated_hints/animated_hint_right.dart';
 import 'package:eecamp/widgets/control_page/control_button.dart';
+import 'package:eecamp/widgets/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:eecamp/providers/bluetooth_provider.dart';
 
@@ -23,8 +25,9 @@ class _ControlPanelState extends State<ControlPanel> {
   MoveStates state = MoveStates.stop;
 
   Future<void> sendMessage(String message) async {
+    final deviceId = GoRouterState.of(context).pathParameters['deviceId'];
     BluetoothProvider bluetooth = Provider.of<BluetoothProvider>(context, listen: false);
-    if (bluetooth.isDisconnected()) {
+    if (bluetooth.isDisconnected() && deviceId != debugDeviceId) {
       showDialog(
         context: context,
         barrierDismissible: false,

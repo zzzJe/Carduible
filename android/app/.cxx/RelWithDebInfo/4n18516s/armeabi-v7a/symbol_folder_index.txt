@@ -1,0 +1,1 @@
+C:\arduino_car_bluetooth_controller_ble\build\app\intermediates\cxx\RelWithDebInfo\4n18516s\obj\armeabi-v7a
