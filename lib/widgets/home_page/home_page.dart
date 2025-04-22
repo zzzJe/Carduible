@@ -3,7 +3,6 @@ import 'package:eecamp/providers/bluetooth_provider.dart';
 import 'package:eecamp/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
