@@ -10,8 +10,7 @@ import 'dart:async';
 String debugDeviceId = 'DebugEECamp';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.context});
-  final BuildContext context;
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();

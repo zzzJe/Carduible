@@ -20,7 +20,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:maxSdkVersion="28" />
     
     <application
-        android:label="arduino_car_bluetooth_controller_ble"
+        android:label="EECamp"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
