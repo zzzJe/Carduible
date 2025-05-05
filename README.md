@@ -1,5 +1,4 @@
-# NTHU EECamp
-# Arduino Car Bluetooth Controller App
+# Arduino Car Bluetooth Controller
 It is a remote controller of an Arduino car with a BLE board.
 
 ## Download
