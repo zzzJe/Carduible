@@ -1,40 +1,58 @@
 # Arduino Car Bluetooth Controller
-It is a remote controller of an Arduino car with a BLE board.
+
+**Arduino Car Bluetooth Controller** is a mobile application designed for controlling Arduino-based cars via Bluetooth Low Energy (BLE). Built using Flutter, this app offers a streamlined interface for connecting and controlling your car with ease.
 
 ## Download
-Google Play:  
-https://play.google.com/store/apps/details?id=com.liuutin9.arduino_car_bluetooth_controller_ble
 
-APK:  
-https://liuutin9.github.io/Shared-Files/eecamp.apk
+* **Google Play:**
+  [Download on Google Play](https://play.google.com/store/apps/details?id=com.liuutin9.arduino_car_bluetooth_controller_ble)
 
-## Supported System
-Android 11+
+* **APK (Direct Download):**
+  [Download APK](https://liuutin9.github.io/Shared-Files/eecamp.apk)
 
-## Boards
-- Arduino board: Arduino Uno
-- Bluetooth board: BT05
+## System Requirements
 
-## Flutter Package
-- flutter_blue_plus
+* **Supported Android Version:** Android 11 or higher
 
-## Permission Requirement
-- Location
-- Nearby devices
+## Compatible Hardware
 
-## How to use?
-### Step 1: Allow the permissions
-<div align="justify" flex=true>
-    <img src="Screenshot_Permission_Location.jpg" width="216" flex=true>
-    <img src="Screenshot_Permission_Nearby_Devices.jpg" width="216" flex=true>
+* **Microcontroller:** Arduino Uno
+* **Bluetooth Module:** BT05 (BLE)
+
+## Built With
+
+* **Flutter Package:** [`flutter_blue_plus`](https://pub.dev/packages/flutter_blue_plus)
+
+## Required Permissions
+
+To function properly, the app requires the following permissions:
+
+* **Location access** – Required for BLE scanning
+* **Nearby devices** – Required to detect and connect to Bluetooth devices
+
+## Getting Started
+
+### 1. Grant Required Permissions
+
+Ensure that the app has access to the necessary permissions:
+
+<div align="center">
+    <img src="readme_pictures/Screenshot_Permission_Location.jpg" width="216">
+    <img src="readme_pictures/Screenshot_Permission_Nearby_Devices.jpg" width="216">
 </div>
 
-### Step 2: Enable bluetooth and location services
-<div align="justify" flex=true>
-    <img src="Screenshot_Turn_On_Services.jpg" width="216" flex=true>
+### 2. Enable Bluetooth and Location Services
+
+Make sure both Bluetooth and location services are turned on:
+
+<div align="center">
+    <img src="readme_pictures/Screenshot_Turn_On_Services.jpg" width="216">
 </div>
 
-### Step 3: Choose your device to connect
-<div align="justify" flex=true>
-    <img src="Screenshot_Device_List.jpg" width="216" flex=true>
+### 3. Connect to Your Bluetooth Device
+
+Select your BT05 device from the list to initiate the connection:
+
+<div align="center">
+    <img src="readme_pictures/Screenshot_Device_List.jpg" width="216">
 </div>
