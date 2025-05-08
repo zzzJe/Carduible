@@ -1,4 +1,5 @@
 import 'package:eecamp/providers/bluetooth_provider.dart';
+import 'package:eecamp/providers/settings_provider.dart';
 import 'package:eecamp/services/navigation_service.dart';
 import 'package:eecamp/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
   // RequestConfiguration requestConfiguration = RequestConfiguration(
@@ -19,11 +20,14 @@ void main() {
     DeviceOrientation.portraitDown,
   ]);
   FlutterBluePlus.setLogLevel(LogLevel.verbose, color: true);
-  runApp(const InitProvider());
+  final buttonSettingsProvider = ButtonSettingsProvider();
+  await buttonSettingsProvider.loadSettings();
+  runApp(InitProvider(buttonSettingsProvider: buttonSettingsProvider));
 }
 
 class InitProvider extends StatelessWidget {
-  const InitProvider({super.key});
+  const InitProvider({super.key, required this.buttonSettingsProvider});
+  final ButtonSettingsProvider buttonSettingsProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +39,7 @@ class InitProvider extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => BluetoothProvider(),
         ),
+        ChangeNotifierProvider.value(value: buttonSettingsProvider),
       ],
       child: const MainApp(),
     );

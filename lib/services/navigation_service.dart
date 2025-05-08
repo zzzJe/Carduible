@@ -2,6 +2,7 @@ import 'package:eecamp/ad/banner_ad.dart';
 import 'package:eecamp/services/animation.dart';
 import 'package:eecamp/widgets/control_page/control_page.dart';
 import 'package:eecamp/widgets/home_page/home_page.dart';
+import 'package:eecamp/widgets/settings_page/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -48,6 +49,15 @@ final routerConfig = GoRouter(
                 transitionsBuilder: iosTransitionsBuilder,
               ),
             ),
+            GoRoute(
+              path: 'settings',
+              pageBuilder: (context, state) => CustomTransitionPage(
+                child: SettingsPage(),
+                transitionDuration: iosTransitionDuration,
+                reverseTransitionDuration: iosReverseTransitionDuration,
+                transitionsBuilder: iosTransitionsBuilder,
+              ),
+            ),
           ],
         ),
       ],
@@ -68,5 +78,9 @@ class NavigationService {
 
   void goControlPanel({required String deviceId}) {
     _router.go('/home/controlPanel/$deviceId');
+  }
+
+  void goSettings() {
+    _router.go('/home/settings');
   }
 }

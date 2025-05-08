@@ -1,6 +1,6 @@
-# Arduino Car Bluetooth Controller
+# Carduible
 
-**Arduino Car Bluetooth Controller** is a mobile application designed for controlling Arduino-based cars via Bluetooth Low Energy (BLE). Built using Flutter, this app offers a streamlined interface for connecting and controlling your car with ease.
+**Carduible** is a mobile application designed for controlling Arduino-based cars via Bluetooth Low Energy (BLE). Built using Flutter, this app offers a streamlined interface for connecting and controlling your car with ease.
 
 ## Download
 
@@ -8,7 +8,7 @@
   [Download on Google Play](https://play.google.com/store/apps/details?id=com.liuutin9.arduino_car_bluetooth_controller_ble)
 
 * **APK (Direct Download):**
-  [Download APK](https://liuutin9.github.io/Shared-Files/eecamp.apk)
+  [Download APK](https://liuutin9.github.io/Shared-Files/Carduible.apk)
 
 ## System Requirements
 
@@ -56,3 +56,19 @@ Select your BT05 device from the list to initiate the connection:
 <div align="center">
     <img src="readme_pictures/Screenshot_Device_List.jpg" width="216">
 </div>
+
+## Button Layout
+
+Here is the button layout:
+```
+[Button 1] [Button 2] [Button 3] 
+[Button 4] [Button 5] [Button 6] 
+[Button 7] [Button 8] [Button 9]
+```
+
+Corresponding transmitted character:
+```
+['q'] ['w'] ['e'] 
+['a'] ['x'] ['d'] 
+['z'] ['s'] ['c'] 
+```

@@ -128,6 +128,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   onPressed: isScanning ? null : checkPermissions,
                 ),
               ),
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  Provider.of<NavigationService>(context, listen: false).goSettings();
+                },
+              ),
             ],
           ),
           SliverList(

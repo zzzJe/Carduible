@@ -15,13 +15,23 @@ class ControlButton extends StatelessWidget {
   Widget getButtonIcon(ControlButtonTypes type) {
     switch (type) {
       case ControlButtonTypes.forward:
-        return const Icon(Icons.arrow_upward);
+        return const Icon(Icons.north);
       case ControlButtonTypes.backward:
-        return const Icon(Icons.arrow_downward);
+        return const Icon(Icons.south);
       case ControlButtonTypes.left:
         return const Icon(Icons.rotate_left);
       case ControlButtonTypes.right:
         return const Icon(Icons.rotate_right);
+      case ControlButtonTypes.mid:
+        return const Icon(Icons.circle_outlined);
+      case ControlButtonTypes.leftTop:
+        return const Icon(Icons.north_west);
+      case ControlButtonTypes.rightTop:
+        return const Icon(Icons.north_east);
+      case ControlButtonTypes.leftBottom:
+        return const Icon(Icons.south_west);
+      case ControlButtonTypes.rightBottom:
+        return const Icon(Icons.south_east);
     }
   }
 
@@ -35,6 +45,16 @@ class ControlButton extends StatelessWidget {
         return MoveStates.left;
       case ControlButtonTypes.right:
         return MoveStates.right;
+      case ControlButtonTypes.mid:
+        return MoveStates.mid;
+      case ControlButtonTypes.leftTop:
+        return MoveStates.leftTop;
+      case ControlButtonTypes.rightTop:
+        return MoveStates.rightTop;
+      case ControlButtonTypes.leftBottom:
+        return MoveStates.leftBottom;
+      case ControlButtonTypes.rightBottom:
+        return MoveStates.rightBottom;
     }
   }
 

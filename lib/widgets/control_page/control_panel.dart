@@ -1,7 +1,9 @@
+import 'package:eecamp/providers/settings_provider.dart';
 import 'package:eecamp/services/navigation_service.dart';
 import 'package:eecamp/widgets/animated_hints/animated_hint_backward.dart';
 import 'package:eecamp/widgets/animated_hints/animated_hint_forward.dart';
 import 'package:eecamp/widgets/animated_hints/animated_hint_left.dart';
+import 'package:eecamp/widgets/animated_hints/animated_hint_others.dart';
 import 'package:eecamp/widgets/animated_hints/animated_hint_right.dart';
 import 'package:eecamp/widgets/control_page/control_button.dart';
 import 'package:eecamp/widgets/home_page/home_page.dart';
@@ -11,8 +13,20 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:eecamp/providers/bluetooth_provider.dart';
 
-enum MoveStates {forward, backward, left, right, stop}
-enum ControlButtonTypes {forward, backward, left, right}
+enum MoveStates {forward, backward, left, right, stop, mid, leftTop, rightTop, leftBottom, rightBottom}
+enum ControlButtonTypes {forward, backward, left, right, mid, leftTop, rightTop, leftBottom, rightBottom}
+
+final Map<ControlButtonTypes, int> buttonTypeToIndex = {
+  ControlButtonTypes.leftTop: 0,
+  ControlButtonTypes.forward: 1,
+  ControlButtonTypes.rightTop: 2,
+  ControlButtonTypes.left: 3,
+  ControlButtonTypes.mid: 4,
+  ControlButtonTypes.right: 5,
+  ControlButtonTypes.leftBottom: 6,
+  ControlButtonTypes.backward: 7,
+  ControlButtonTypes.rightBottom: 8,
+};
 
 class ControlPanel extends StatefulWidget {
   const ControlPanel({super.key});
@@ -73,6 +87,21 @@ class _ControlPanelState extends State<ControlPanel> {
       case MoveStates.right:
         sendMessage('d');
         break;
+      case MoveStates.mid:
+        sendMessage('x');
+        break;
+      case MoveStates.leftTop:
+        sendMessage('q');
+        break;
+      case MoveStates.rightTop:
+        sendMessage('e');
+        break;
+      case MoveStates.leftBottom:
+        sendMessage('z');
+        break;
+      case MoveStates.rightBottom:
+        sendMessage('c');
+        break;
       default:
         sendMessage('0');
     }
@@ -88,66 +117,76 @@ class _ControlPanelState extends State<ControlPanel> {
         return const AnimatedHintLeft();
       case MoveStates.right:
         return const AnimatedHintRight();
-      default:
+      case MoveStates.stop:
         return const Icon(
           Icons.navigation,
           size: 100,
         );
+      default:
+        return const AnimatedHintOthers();
     }
+  }
+
+  Widget conditionalButton(ControlButtonTypes type, ButtonSettingsProvider settingsProvider) {
+    
+    int index = buttonTypeToIndex[type]!;
+    
+    // check if the button is enabled
+    if (!settingsProvider.getButtonState(index)) {
+      // if not enabled, return an empty SizedBox
+      return const SizedBox(width: 60, height: 60);
+    }
+    
+    // if enabled, return the ControlButton widget
+    return ControlButton(
+      type: type,
+      state: state,
+      setMoveState: setMoveStates,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          flex: 2,
-          child: getAnimatedHint(state),
-        ),
-        Expanded(
-          flex: 3,
-          child: Card(
-            margin: const EdgeInsets.all(0),
-            color: Theme.of(context).colorScheme.surface,
-            elevation: 0,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ControlButton(
-                  type: ControlButtonTypes.forward,
-                  state: state,
-                  setMoveState: setMoveStates,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ControlButton(
-                      type: ControlButtonTypes.left,
-                      state: state,
-                      setMoveState: setMoveStates,
-                    ),
-                    const SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: Icon(Icons.local_taxi),
-                    ),
-                    ControlButton(
-                      type: ControlButtonTypes.right,
-                      state: state,
-                      setMoveState: setMoveStates,
-                    ),
-                  ],
-                ),
-                ControlButton(
-                  type: ControlButtonTypes.backward,
-                  state: state,
-                  setMoveState: setMoveStates,
-                ),
-              ],
+    return Consumer<ButtonSettingsProvider>(
+      builder: (context, buttonSettings, child) {
+        return Column(
+          children: [
+            Expanded(
+              flex: 2,
+              child: getAnimatedHint(state),
             ),
-          ),
-        ),
-      ],
+            Expanded(
+              flex: 3,
+              child: Card(
+                margin: const EdgeInsets.all(0),
+                color: Theme.of(context).colorScheme.surface,
+                elevation: 0,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    children: [
+                      conditionalButton(ControlButtonTypes.leftTop, buttonSettings),
+                      conditionalButton(ControlButtonTypes.forward, buttonSettings),
+                      conditionalButton(ControlButtonTypes.rightTop, buttonSettings),
+                      conditionalButton(ControlButtonTypes.left, buttonSettings),
+                      conditionalButton(ControlButtonTypes.mid, buttonSettings),
+                      conditionalButton(ControlButtonTypes.right, buttonSettings),
+                      conditionalButton(ControlButtonTypes.leftBottom, buttonSettings),
+                      conditionalButton(ControlButtonTypes.backward, buttonSettings),
+                      conditionalButton(ControlButtonTypes.rightBottom, buttonSettings),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
