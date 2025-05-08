@@ -72,3 +72,5 @@ Corresponding transmitted character:
 ['a'] ['x'] ['d'] 
 ['z'] ['s'] ['c'] 
 ```
+
+**Note: Default transmitted character is '0'**
