@@ -73,4 +73,4 @@ Corresponding transmitted character:
 ['z'] ['s'] ['c'] 
 ```
 
-**Note: Default transmitted character is '0'**
+**Note: Default transmitted character is `'0'`**
