@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               ],
               centerTitle: true,
               title: Text(
-                'EECamp',
+                'Carduible',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onTertiary,
                 ),
