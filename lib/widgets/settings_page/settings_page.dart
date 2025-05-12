@@ -1,5 +1,5 @@
-import 'package:eecamp/providers/settings_provider.dart';
-import 'package:eecamp/services/navigation_service.dart';
+import 'package:carduible/providers/settings_provider.dart';
+import 'package:carduible/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

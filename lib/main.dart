@@ -1,20 +1,16 @@
-import 'package:eecamp/providers/bluetooth_provider.dart';
-import 'package:eecamp/providers/settings_provider.dart';
-import 'package:eecamp/services/navigation_service.dart';
-import 'package:eecamp/theme/theme.dart';
+import 'package:carduible/providers/bluetooth_provider.dart';
+import 'package:carduible/providers/settings_provider.dart';
+import 'package:carduible/services/navigation_service.dart';
+import 'package:carduible/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:provider/provider.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
-  // RequestConfiguration requestConfiguration = RequestConfiguration(
-  //   testDeviceIds: <String>['0a8ecf8d-644f-4ae3-9416-1620345f4d38', '012b0fef-d3a5-483e-9fe7-c03e559a1278'],
-  // );
-  // MobileAds.instance.updateRequestConfiguration(requestConfiguration);
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

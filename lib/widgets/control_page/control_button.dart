@@ -1,4 +1,4 @@
-import 'package:eecamp/widgets/control_page/control_panel.dart';
+import 'package:carduible/widgets/control_page/control_panel.dart';
 import 'package:flutter/material.dart';
 
 class ControlButton extends StatelessWidget {

@@ -1,7 +1,7 @@
-import 'package:eecamp/providers/bluetooth_provider.dart';
-import 'package:eecamp/services/navigation_service.dart';
-import 'package:eecamp/widgets/control_page/control_panel.dart';
-import 'package:eecamp/widgets/home_page/home_page.dart';
+import 'package:carduible/providers/bluetooth_provider.dart';
+import 'package:carduible/services/navigation_service.dart';
+import 'package:carduible/widgets/control_page/control_panel.dart';
+import 'package:carduible/widgets/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';

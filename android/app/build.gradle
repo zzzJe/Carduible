@@ -43,10 +43,10 @@ android {
         applicationId = "com.liuutin9.arduino_car_bluetooth_controller_ble"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdk = flutter.minSdkVersion
+        minSdk = 23
         targetSdk = 35
-        versionCode = 12
-        versionName = '1.1.9'
+        versionCode = 13
+        versionName = '1.1.10'
     }
 
     signingConfigs {

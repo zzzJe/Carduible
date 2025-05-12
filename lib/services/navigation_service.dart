@@ -1,8 +1,8 @@
-import 'package:eecamp/ad/banner_ad.dart';
-import 'package:eecamp/services/animation.dart';
-import 'package:eecamp/widgets/control_page/control_page.dart';
-import 'package:eecamp/widgets/home_page/home_page.dart';
-import 'package:eecamp/widgets/settings_page/settings_page.dart';
+import 'package:carduible/ad/banner_ad.dart';
+import 'package:carduible/services/animation.dart';
+import 'package:carduible/widgets/control_page/control_page.dart';
+import 'package:carduible/widgets/home_page/home_page.dart';
+import 'package:carduible/widgets/settings_page/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

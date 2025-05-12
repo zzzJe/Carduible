@@ -1,4 +1,4 @@
-name: eecamp
+name: carduible
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -34,12 +34,13 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  permission_handler: ^11.3.1
-  flutter_blue_plus: ^1.32.8
-  provider: ^6.1.2
-  go_router: ^14.0.1
-  google_mobile_ads: ^5.2.0
+  permission_handler: ^12.0.0+1
+  flutter_blue_plus: ^1.35.5
+  provider: ^6.1.5
+  go_router: ^15.1.2
+  google_mobile_ads: ^6.0.0
   shared_preferences: ^2.5.3
+  flutter_dotenv: ^5.2.1
   
 dev_dependencies:
   flutter_test:
@@ -50,7 +51,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
