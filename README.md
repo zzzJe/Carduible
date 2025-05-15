@@ -1,5 +1,10 @@
 # Carduible
 
+[![Flutter](https://img.shields.io/badge/Flutter-02569B.svg?logo=flutter&logoColor=white)](https://flutter.dev/)
+[![flutter_blue_plus](https://img.shields.io/badge/flutter__blue__plus-02569B.svg?logo=flutter&logoColor=white)](https://pub.dev/packages/flutter_blue_plus)
+[![Dart](https://img.shields.io/badge/Dart-0175C2.svg?logo=dart&logoColor=white)](https://dart.dev/)
+[![Arduino](https://img.shields.io/badge/Arduino-00979D.svg?logo=arduino&logoColor=white)](https://www.arduino.cc/)  
+
 **Carduible** is a mobile application designed for controlling Arduino-based cars via Bluetooth Low Energy (BLE). Built using Flutter, this app offers a streamlined interface for connecting and controlling your car with ease.
 
 ## Download
