@@ -1,0 +1,2 @@
+C:/Users/Utin Liu/Carduible/android/app/.cxx/Debug/26a35n53/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/Utin Liu/Carduible/android/app/.cxx/Debug/26a35n53/armeabi-v7a/CMakeFiles/rebuild_cache.dir
