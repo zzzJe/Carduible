@@ -13,7 +13,7 @@
   [Download on Google Play](https://play.google.com/store/apps/details?id=com.liuutin9.arduino_car_bluetooth_controller_ble)
 
 * **APK:**
-  [Download APK](https://github.com/liuutin9/Carduible/releases/tag/v1.1.9)
+  [Download APK](https://github.com/liuutin9/Carduible/releases)
 
 ## System Requirements
 
