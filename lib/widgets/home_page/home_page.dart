@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:carduible/providers/bluetooth_provider.dart';
 import 'package:carduible/services/navigation_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -45,20 +46,40 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   Future<void> checkPermissions() async {
-    var locationPermission = await Permission.location.request();
-    var bluetoothPermission = await Permission.bluetoothScan.request();
-
-    if (locationPermission.isGranted && bluetoothPermission.isGranted) {
-      if (Platform.isAndroid) {
-        await FlutterBluePlus.turnOn();
-      }
+    if (kIsWeb) {
+      // Web platform does not require any permissions
       startScan();
-    } else if (!locationPermission.isGranted) {
-      locationPermission = await Permission.location.request();
-    } else if (!bluetoothPermission.isGranted) {
-      bluetoothPermission = await Permission.bluetoothScan.request();
+    } else if (Platform.isIOS) {
+      var locationPermission = await Permission.location.request();
+      var bluetoothPermission = await Permission.bluetooth.request();
+
+      if (locationPermission.isGranted && bluetoothPermission.isGranted) {
+        startScan();
+      } else if (!locationPermission.isGranted) {
+        locationPermission = await Permission.location.request();
+      } else if (!bluetoothPermission.isGranted) {
+        bluetoothPermission = await Permission.bluetooth.request();
+      } else {
+        debugPrint("Permissions not granted\n");
+      }
+    } else if (Platform.isAndroid) {
+      var locationPermission = await Permission.location.request();
+      var bluetoothPermission = await Permission.bluetoothScan.request();
+
+      if (locationPermission.isGranted && bluetoothPermission.isGranted) {
+        if (Platform.isAndroid) {
+          await FlutterBluePlus.turnOn();
+        }
+        startScan();
+      } else if (!locationPermission.isGranted) {
+        locationPermission = await Permission.location.request();
+      } else if (!bluetoothPermission.isGranted) {
+        bluetoothPermission = await Permission.bluetoothScan.request();
+      } else {
+        debugPrint("Permissions not granted\n");
+      }
     } else {
-      debugPrint("Permissions not granted\n");
+      debugPrint("Unsupported platform\n");
     }
   }
 
