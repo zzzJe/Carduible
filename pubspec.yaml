@@ -41,6 +41,7 @@ dependencies:
   google_mobile_ads: ^6.0.0
   shared_preferences: ^2.5.3
   flutter_dotenv: ^5.2.1
+  flutter_blue_plus_windows: ^1.25.2
   
 dev_dependencies:
   flutter_test:
