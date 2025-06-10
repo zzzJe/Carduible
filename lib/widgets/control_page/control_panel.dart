@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carduible/providers/settings_provider.dart';
 import 'package:carduible/services/navigation_service.dart';
 import 'package:carduible/widgets/animated_hints/animated_hint_backward.dart';
@@ -37,6 +39,69 @@ class ControlPanel extends StatefulWidget {
 
 class _ControlPanelState extends State<ControlPanel> {
   MoveStates state = MoveStates.stop;
+  StreamSubscription<List<int>>? _receiveSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    // receiveMessage(); // 啟動接收訊息
+  }
+
+  @override
+  void dispose() {
+    _receiveSubscription?.cancel();
+    super.dispose();
+  }
+
+  bool _initialized = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_initialized) {
+      receiveMessage(); // ✅ 安全呼叫
+      _initialized = true;
+    }
+  }
+
+
+
+  void receiveMessage() async {
+    final deviceId = GoRouterState.of(context).pathParameters['deviceId'];
+    BluetoothProvider bluetooth = Provider.of<BluetoothProvider>(context, listen: false);
+    if (bluetooth.isDisconnected() && deviceId != debugDeviceId) {
+      return; // 不連線就不接收
+    }
+
+    try {
+      BluetoothCharacteristic c = bluetooth.characteristic!;
+
+      // 檢查是否支援通知
+      if (c.properties.notify) {
+        await c.setNotifyValue(true);
+
+        _receiveSubscription = c.onValueReceived.listen((value) {
+          String received = String.fromCharCodes(value);
+          debugPrint('Received message: $received');
+
+          // 可以加上訊息提示，例如 Snackbar
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Received: $received')),
+            );
+          }
+
+          // 若有需要，這裡也能根據收到的值進行動作
+        });
+      } else {
+        debugPrint("This characteristic does not support notifications.");
+      }
+    } catch (e) {
+      debugPrint('Error in receiveMessage: $e');
+    }
+  }
+
 
   Future<void> sendMessage(String message) async {
     final deviceId = GoRouterState.of(context).pathParameters['deviceId'];
