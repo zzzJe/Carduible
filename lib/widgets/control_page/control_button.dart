@@ -93,7 +93,7 @@ class ControlButton extends StatelessWidget {
           height: 100,
           width: 100,
           decoration: BoxDecoration(
-            color: state == MoveStates.backward
+            color: isThisMove(type, state)
                 ? Theme.of(context).colorScheme.surfaceContainerLowest
                 : Theme.of(context).colorScheme.surfaceContainerHighest,
             shape: BoxShape.rectangle,
