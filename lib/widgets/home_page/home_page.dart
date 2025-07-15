@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         setState(() {
           devicesList = results
               .map((r) => r.device)
-              .where((device) => device.platformName != '')
+              // .where((device) => device.platformName != '') // 排除空名字裝置
               .toList();
         });
       }
