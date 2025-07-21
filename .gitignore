@@ -54,3 +54,5 @@ lib/firebase_options.dart
 # FVM Version Cache
 .fvm/
 temp*
+
+android/app/google-services.json
