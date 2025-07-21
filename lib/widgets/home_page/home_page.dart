@@ -193,25 +193,25 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ),
           ),
 
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: devicesList.length,
-              (context, index) {
-                return ListTile(
-                  title: Text(devicesList[index].platformName),
-                  subtitle: Text(devicesList[index].remoteId.toString()),
-                  trailing: const Icon(Icons.bluetooth),
-                  tileColor: Theme.of(context).colorScheme.surfaceContainer,
-                  onTap: () {
-                    Provider.of<BluetoothProvider>(context, listen: false)
-                        .setSelectedDevice(devicesList[index]);
-                    Provider.of<NavigationService>(context, listen: false)
-                        .goControlPanel(deviceId: devicesList[index].remoteId.toString());
-                  },
-                );
-              },
-            ),
-          ),
+          // SliverList(
+          //   delegate: SliverChildBuilderDelegate(
+          //     childCount: devicesList.length,
+          //     (context, index) {
+          //       return ListTile(
+          //         title: Text(devicesList[index].platformName),
+          //         subtitle: Text(devicesList[index].remoteId.toString()),
+          //         trailing: const Icon(Icons.bluetooth),
+          //         tileColor: Theme.of(context).colorScheme.surfaceContainer,
+          //         onTap: () {
+          //           Provider.of<BluetoothProvider>(context, listen: false)
+          //               .setSelectedDevice(devicesList[index]);
+          //           Provider.of<NavigationService>(context, listen: false)
+          //               .goControlPanel(deviceId: devicesList[index].remoteId.toString());
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );

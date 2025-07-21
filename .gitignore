@@ -49,3 +49,4 @@ app.*.map.json
 
 # Secret files
 .env
+lib/firebase_options.dart
