@@ -202,6 +202,7 @@ class _HomePageState extends State<HomePage>
                   onTap: () {
                     Provider.of<BluetoothProvider>(context, listen: false)
                         .setSelectedDevice(device);
+<<<<<<< HEAD
                     if (isRacingMode) {
                       nav.goRacingPanel(deviceId: device.remoteId.toString());
                     } else {
@@ -213,6 +214,36 @@ class _HomePageState extends State<HomePage>
               childCount: devicesListPlus.length + 1, // 多加一個 for debug
             ),
           ),
+=======
+                    Provider.of<NavigationService>(context, listen: false)
+                        .goControlPanel(deviceId: device.remoteId.toString());
+                  },
+                );
+              },
+              childCount: devicesList.length + 1, // 多加一個 for debug
+            ),
+          ),
+
+          // SliverList(
+          //   delegate: SliverChildBuilderDelegate(
+          //     childCount: devicesList.length,
+          //     (context, index) {
+          //       return ListTile(
+          //         title: Text(devicesList[index].platformName),
+          //         subtitle: Text(devicesList[index].remoteId.toString()),
+          //         trailing: const Icon(Icons.bluetooth),
+          //         tileColor: Theme.of(context).colorScheme.surfaceContainer,
+          //         onTap: () {
+          //           Provider.of<BluetoothProvider>(context, listen: false)
+          //               .setSelectedDevice(devicesList[index]);
+          //           Provider.of<NavigationService>(context, listen: false)
+          //               .goControlPanel(deviceId: devicesList[index].remoteId.toString());
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ),
+>>>>>>> 4af89d8 (Integrate Firebase and AdMob into Flutter app)
         ],
       ),
     );
