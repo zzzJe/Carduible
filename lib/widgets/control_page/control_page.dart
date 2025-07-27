@@ -109,10 +109,10 @@ class ControlPage extends StatelessWidget {
                   leading: IconButton(
                     icon: const Icon(Icons.arrow_back),
                     onPressed: () async {
-                      await bluetooth.disconnectFromDevice();
                       if (context.mounted) {
                         Provider.of<NavigationService>(context, listen: false).goHome();
                       }
+                      await bluetooth.disconnectFromDevice();
                     },
                   ),
                   title: Text(bluetooth.selectedDevice?.platformName ?? 'Device'),
