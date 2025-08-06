@@ -15,8 +15,30 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:carduible/providers/bluetooth_provider.dart';
 
-enum MoveStates {forward, backward, left, right, stop, mid, leftTop, rightTop, leftBottom, rightBottom}
-enum ControlButtonTypes {forward, backward, left, right, mid, leftTop, rightTop, leftBottom, rightBottom}
+enum MoveStates {
+  forward,
+  backward,
+  left,
+  right,
+  stop,
+  mid,
+  leftTop,
+  rightTop,
+  leftBottom,
+  rightBottom
+}
+
+enum ControlButtonTypes {
+  forward,
+  backward,
+  left,
+  right,
+  mid,
+  leftTop,
+  rightTop,
+  leftBottom,
+  rightBottom
+}
 
 final Map<ControlButtonTypes, int> buttonTypeToIndex = {
   ControlButtonTypes.leftTop: 0,
@@ -65,11 +87,10 @@ class _ControlPanelState extends State<ControlPanel> {
     }
   }
 
-
-
   void receiveMessage() async {
     final deviceId = GoRouterState.of(context).pathParameters['deviceId'];
-    BluetoothProvider bluetooth = Provider.of<BluetoothProvider>(context, listen: false);
+    BluetoothProvider bluetooth =
+        Provider.of<BluetoothProvider>(context, listen: false);
     if (bluetooth.isDisconnected() && deviceId != debugDeviceId) {
       return; // 不連線就不接收
     }
@@ -102,34 +123,35 @@ class _ControlPanelState extends State<ControlPanel> {
     }
   }
 
-
   Future<void> sendMessage(String message) async {
     final deviceId = GoRouterState.of(context).pathParameters['deviceId'];
-    BluetoothProvider bluetooth = Provider.of<BluetoothProvider>(context, listen: false);
+    BluetoothProvider bluetooth =
+        Provider.of<BluetoothProvider>(context, listen: false);
     if (bluetooth.isDisconnected() && deviceId != debugDeviceId) {
       showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) {
-          return AlertDialog(
-            title: const Text("Disconnected"),
-            icon: const Icon(Icons.bluetooth_disabled),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Provider.of<NavigationService>(context, listen: false).goHome();
-                },
-                child: const Text("Confirm"),
-              ),
-            ],
-          );
-        }
-      );
+          context: context,
+          barrierDismissible: false,
+          builder: (_) {
+            return AlertDialog(
+              title: const Text("Disconnected"),
+              icon: const Icon(Icons.bluetooth_disabled),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Provider.of<NavigationService>(context, listen: false)
+                        .goHome();
+                  },
+                  child: const Text("Confirm"),
+                ),
+              ],
+            );
+          });
       return;
     }
     try {
       BluetoothCharacteristic c = bluetooth.characteristic!;
-      c.write(message.codeUnits, withoutResponse: c.properties.writeWithoutResponse);
+      c.write(message.codeUnits,
+          withoutResponse: c.properties.writeWithoutResponse);
     } catch (e) {
       debugPrint('Error sending message: $e');
     }
@@ -192,16 +214,16 @@ class _ControlPanelState extends State<ControlPanel> {
     }
   }
 
-  Widget conditionalButton(ControlButtonTypes type, ButtonSettingsProvider settingsProvider) {
-    
+  Widget conditionalButton(
+      ControlButtonTypes type, ButtonSettingsProvider settingsProvider) {
     int index = buttonTypeToIndex[type]!;
-    
+
     // check if the button is enabled
     if (!settingsProvider.getButtonState(index)) {
       // if not enabled, return an empty SizedBox
       return const SizedBox(width: 60, height: 60);
     }
-    
+
     // if enabled, return the ControlButton widget
     return ControlButton(
       type: type,
@@ -235,15 +257,23 @@ class _ControlPanelState extends State<ControlPanel> {
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
                     children: [
-                      conditionalButton(ControlButtonTypes.leftTop, buttonSettings),
-                      conditionalButton(ControlButtonTypes.forward, buttonSettings),
-                      conditionalButton(ControlButtonTypes.rightTop, buttonSettings),
-                      conditionalButton(ControlButtonTypes.left, buttonSettings),
+                      conditionalButton(
+                          ControlButtonTypes.leftTop, buttonSettings),
+                      conditionalButton(
+                          ControlButtonTypes.forward, buttonSettings),
+                      conditionalButton(
+                          ControlButtonTypes.rightTop, buttonSettings),
+                      conditionalButton(
+                          ControlButtonTypes.left, buttonSettings),
                       conditionalButton(ControlButtonTypes.mid, buttonSettings),
-                      conditionalButton(ControlButtonTypes.right, buttonSettings),
-                      conditionalButton(ControlButtonTypes.leftBottom, buttonSettings),
-                      conditionalButton(ControlButtonTypes.backward, buttonSettings),
-                      conditionalButton(ControlButtonTypes.rightBottom, buttonSettings),
+                      conditionalButton(
+                          ControlButtonTypes.right, buttonSettings),
+                      conditionalButton(
+                          ControlButtonTypes.leftBottom, buttonSettings),
+                      conditionalButton(
+                          ControlButtonTypes.backward, buttonSettings),
+                      conditionalButton(
+                          ControlButtonTypes.rightBottom, buttonSettings),
                     ],
                   ),
                 ),

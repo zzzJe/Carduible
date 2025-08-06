@@ -31,10 +31,12 @@ class BluetoothProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> connectToDevice(BluetoothDevice device, BuildContext context) async {
+  Future<void> connectToDevice(
+      BluetoothDevice device, BuildContext context) async {
     try {
       FlutterBluePlus.stopScan();
-      await device.connect().timeout(const Duration(seconds: 10), onTimeout: () {
+      await device.connect().timeout(const Duration(seconds: 10),
+          onTimeout: () {
         debugPrint('Connection timeout');
         return Future.error('Connection timeout');
       });
@@ -66,8 +68,12 @@ class BluetoothProvider extends ChangeNotifier {
       //     print(characteristic);
       //   }
       // }
-      var service = services.where((sv) => sv.uuid.toString().toLowerCase() == 'ffe0').first;
-      var char = service.characteristics.where((ch) => ch.uuid.toString().toLowerCase() == 'ffe1').first;
+      var service = services
+          .where((sv) => sv.uuid.toString().toLowerCase() == 'ffe0')
+          .first;
+      var char = service.characteristics
+          .where((ch) => ch.uuid.toString().toLowerCase() == 'ffe1')
+          .first;
       setCharacteristic(char);
       return true;
     } catch (e) {

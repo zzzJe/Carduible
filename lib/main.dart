@@ -45,14 +45,16 @@ class InitProvider extends StatelessWidget {
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: routerConfig,
-      theme: ThemeData(useMaterial3: true, colorScheme: MaterialTheme.lightScheme()),
-      darkTheme: ThemeData(useMaterial3: true, colorScheme: MaterialTheme.darkScheme()),
+      theme: ThemeData(
+          useMaterial3: true, colorScheme: MaterialTheme.lightScheme()),
+      darkTheme: ThemeData(
+          useMaterial3: true, colorScheme: MaterialTheme.darkScheme()),
     );
   }
 }
