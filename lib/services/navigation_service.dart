@@ -13,7 +13,6 @@ final GlobalKey<NavigatorState> _rootNavigatorKey =
 final routerConfig = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/home',
-  // initialLocation: '/home/racingPanel/0000',
   debugLogDiagnostics: true,
   redirect: (context, state) {
     if (state.uri.path == '/') return '/home';
