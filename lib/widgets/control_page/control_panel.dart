@@ -129,29 +129,32 @@ class _ControlPanelState extends State<ControlPanel> {
         Provider.of<BluetoothProvider>(context, listen: false);
     if (bluetooth.isDisconnected() && deviceId != debugDeviceId) {
       showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (_) {
-            return AlertDialog(
-              title: const Text("Disconnected"),
-              icon: const Icon(Icons.bluetooth_disabled),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Provider.of<NavigationService>(context, listen: false)
-                        .goHome();
-                  },
-                  child: const Text("Confirm"),
-                ),
-              ],
-            );
-          });
+        context: context,
+        barrierDismissible: false,
+        builder: (_) {
+          return AlertDialog(
+            title: const Text("Disconnected"),
+            icon: const Icon(Icons.bluetooth_disabled),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Provider.of<NavigationService>(context, listen: false)
+                      .goHome();
+                },
+                child: const Text("Confirm"),
+              ),
+            ],
+          );
+        },
+      );
       return;
     }
     try {
       BluetoothCharacteristic c = bluetooth.characteristic!;
-      c.write(message.codeUnits,
-          withoutResponse: c.properties.writeWithoutResponse);
+      c.write(
+        message.codeUnits,
+        withoutResponse: c.properties.writeWithoutResponse,
+      );
     } catch (e) {
       debugPrint('Error sending message: $e');
     }

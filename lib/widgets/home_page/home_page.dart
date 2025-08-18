@@ -73,8 +73,7 @@ class _HomePageState extends State<HomePage>
         if (Platform.isAndroid) {
           await FlutterBluePlus.turnOn();
         }
-        safeStartScan();
-        // startScan();
+        startScan();
       } else {
         if (!locationPermission.isGranted) {
           locationPermission = await Permission.location.request();
@@ -85,80 +84,6 @@ class _HomePageState extends State<HomePage>
       }
     } else {
       debugPrint("Unsupported platform\n");
-    }
-  }
-
-  Future<void> safeStartScan({
-    Duration timeout = const Duration(seconds: 10),
-  }) async {
-    try {
-      // ✅ 停止上次掃描
-      await FlutterBluePlus.stopScan();
-      await scanSubscription?.cancel();
-      scanSubscription = null;
-
-      // ✅ 要求權限
-      final statusLocation = await Permission.location.request();
-      final statusScan = await Permission.bluetoothScan.request();
-      final statusConnect = await Permission.bluetoothConnect.request();
-
-      if (!statusLocation.isGranted ||
-          !statusScan.isGranted ||
-          !statusConnect.isGranted) {
-        debugPrint("❌ 權限不足，無法掃描藍牙裝置");
-        return;
-      }
-
-      // ✅ 等待 BLE 變成 ON
-      final state = await FlutterBluePlus.adapterState.first;
-      if (state != BluetoothAdapterState.on) {
-        debugPrint("🔌 藍牙未開啟，嘗試呼叫 turnOn()");
-        await FlutterBluePlus.turnOn();
-        await Future.delayed(const Duration(seconds: 2));
-
-        final checkAgain = await FlutterBluePlus.adapterState.first;
-        if (checkAgain != BluetoothAdapterState.on) {
-          debugPrint("❌ 藍牙仍未開啟，掃描取消");
-          return;
-        }
-      }
-
-      // ✅ 正式開始掃描
-      debugPrint("🔍 開始藍牙掃描...");
-      devicesListPlus.clear();
-
-      scanSubscription = FlutterBluePlus.scanResults.listen((results) {
-        if (mounted) {
-          setState(() {
-            devicesListPlus = results
-                .map((r) => r.device)
-                .where((d) => d.platformName.isNotEmpty)
-                .toSet()
-                .toList();
-          });
-        }
-      });
-
-      await FlutterBluePlus.startScan(timeout: timeout);
-
-      setState(() {
-        isScanning = true;
-      });
-      _controller.repeat();
-
-      // 等待掃描結束
-      await Future.delayed(timeout);
-    } catch (e, stack) {
-      debugPrint('❌ 發生掃描錯誤: $e');
-      debugPrint(stack.toString());
-    } finally {
-      if (mounted) {
-        setState(() {
-          isScanning = false;
-        });
-        _controller.stop();
-      }
-      debugPrint("✅ 掃描結束");
     }
   }
 
@@ -284,30 +209,6 @@ class _HomePageState extends State<HomePage>
               childCount: devicesListPlus.length + 1, // 多加一個 for debug
             ),
           ),
-          // SliverList(
-          //   delegate: SliverChildBuilderDelegate(
-          //     childCount: devicesListPlus.length,
-          //     (context, index) {
-          //       return ListTile(
-          //         title: Text(devicesListPlus[index].platformName),
-          //         subtitle: Text(devicesListPlus[index].remoteId.toString()),
-          //         trailing: const Icon(Icons.bluetooth),
-          //         tileColor: Theme.of(context).colorScheme.surfaceContainer,
-          //         onTap: () {
-          //           Provider.of<BluetoothProvider>(context, listen: false)
-          //               .setSelectedDevice(devicesListPlus[index]);
-          //           if (isRacingMode) {
-          //             nav.goRacingPanel(
-          //                 deviceId: devicesListPlus[index].remoteId.toString());
-          //           } else {
-          //             nav.goControlPanel(
-          //                 deviceId: devicesListPlus[index].remoteId.toString());
-          //           }
-          //         },
-          //       );
-          //     },
-          //   ),
-          // ),
         ],
       ),
     );

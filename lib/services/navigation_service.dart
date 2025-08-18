@@ -1,7 +1,7 @@
 import 'package:carduible/ad/banner_ad.dart';
 import 'package:carduible/services/animation.dart';
 import 'package:carduible/widgets/control_page/control_page.dart';
-import 'package:carduible/widgets/control_page/racing_page.dart';
+import 'package:carduible/widgets/racing_page/racing_page.dart';
 import 'package:carduible/widgets/home_page/home_page.dart';
 import 'package:carduible/widgets/settings_page/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,8 @@ final GlobalKey<NavigatorState> _rootNavigatorKey =
 
 final routerConfig = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: '/home',
+  // initialLocation: '/home',
+  initialLocation: '/home/racingPanel/0000',
   debugLogDiagnostics: true,
   redirect: (context, state) {
     if (state.uri.path == '/') return '/home';

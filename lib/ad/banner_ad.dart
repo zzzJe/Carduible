@@ -44,7 +44,12 @@ class _BannerAdWidget extends State<BannerAdWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+    if (!isPortrait) return const SizedBox.shrink();
+
+    return Container(
+      decoration: BoxDecoration(color: const Color.fromARGB(255, 50, 50, 50)),
       width: AdSize.banner.width.toDouble(),
       height: AdSize.banner.height.toDouble(),
       child: isBannerAdReady ? AdWidget(ad: _bannerAd) : const SizedBox(),
