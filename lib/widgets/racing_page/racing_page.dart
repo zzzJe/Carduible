@@ -106,15 +106,19 @@ class _RacingPageInnerState extends State<RacingPageInner> {
       BluetoothCharacteristic c = bluetooth.characteristic!;
       c.write(
         [
-          // racing mode indicator
-          0xFF,
-          // throttle
-          (throttleRatio * 100).toInt(),
+          // angle indicator
+          0xF0,
           // angle
           Provider.of<GyroProvider>(context)
               .getAngle
               .toInt()
               .clamp(-angleLimit, angleLimit),
+          // throttle indicator
+          0xF1,
+          // throttle
+          (throttleRatio * 100).toInt(),
+          // reverse indicator
+          0xF2,
           // reverse
           reversePressed ? 1 : 0,
         ],
