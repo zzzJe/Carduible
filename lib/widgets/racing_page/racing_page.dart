@@ -68,7 +68,7 @@ class _RacingPageInnerState extends State<RacingPageInner> {
     ]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     circularTimerUtil = CircularTimerUtil(
-      duration: Duration(milliseconds: 100),
+      duration: Duration(milliseconds: 200),
       callback: sendMessage,
     );
   }
@@ -81,14 +81,14 @@ class _RacingPageInnerState extends State<RacingPageInner> {
     if (bluetooth.isDisconnected()) {
       showDialog(
         context: context,
-        barrierDismissible: false,
-        builder: (_) {
+        builder: (BuildContext dialogContext) {
           return AlertDialog(
             title: const Text("Disconnected"),
             icon: const Icon(Icons.bluetooth_disabled),
             actions: [
               TextButton(
                 onPressed: () {
+                  Navigator.pop(dialogContext);
                   Provider.of<NavigationService>(
                     context,
                     listen: false,
@@ -109,10 +109,10 @@ class _RacingPageInnerState extends State<RacingPageInner> {
           // angle indicator
           0xF0,
           // angle
-          Provider.of<GyroProvider>(context)
+          Provider.of<GyroProvider>(context, listen: false)
               .getAngle
               .toInt()
-              .clamp(-angleLimit, angleLimit),
+              .clamp(-angleLimit, angleLimit) + angleLimit,
           // throttle indicator
           0xF1,
           // throttle
@@ -294,7 +294,7 @@ class _RacingPageInnerState extends State<RacingPageInner> {
                                 child: Text(
                                   deviceId ?? 'Anonymous',
                                   style: GoogleFonts.orbitron(
-                                    fontSize: 20,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.normal,
                                     color: Colors.white,
                                   ),
@@ -316,11 +316,22 @@ class _RacingPageInnerState extends State<RacingPageInner> {
           top: 16,
           left: 16,
           child: IconButton(
-            onPressed:
-                Provider.of<NavigationService>(context, listen: false).goHome,
+            onPressed: () async {
+              Provider.of<NavigationService>(context, listen: false).goHome();
+              await Provider.of<BluetoothProvider>(context, listen: false).disconnectFromDevice();
+            },
             icon: Icon(Icons.arrow_back),
           ),
         ),
+        // Positioned(
+        //   // back button
+        //   top: 16,
+        //   left: 56,
+        //   child: IconButton(
+        //     onPressed: sendMessage,
+        //     icon: Icon(Icons.accessible_forward),
+        //   ),
+        // ),
       ],
     );
   }

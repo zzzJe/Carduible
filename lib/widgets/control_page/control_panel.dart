@@ -130,16 +130,18 @@ class _ControlPanelState extends State<ControlPanel> {
     if (bluetooth.isDisconnected() && deviceId != debugDeviceId) {
       showDialog(
         context: context,
-        barrierDismissible: false,
-        builder: (_) {
+        builder: (BuildContext dialogContext) {
           return AlertDialog(
             title: const Text("Disconnected"),
             icon: const Icon(Icons.bluetooth_disabled),
             actions: [
               TextButton(
                 onPressed: () {
-                  Provider.of<NavigationService>(context, listen: false)
-                      .goHome();
+                  Navigator.pop(dialogContext);
+                  Provider.of<NavigationService>(
+                    context,
+                    listen: false,
+                  ).goHome();
                 },
                 child: const Text("Confirm"),
               ),

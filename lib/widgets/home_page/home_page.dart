@@ -202,7 +202,11 @@ class _HomePageState extends State<HomePage>
                   onTap: () {
                     Provider.of<BluetoothProvider>(context, listen: false)
                         .setSelectedDevice(device);
-                    nav.goControlPanel(deviceId: device.remoteId.toString());
+                    if (isRacingMode) {
+                      nav.goRacingPanel(deviceId: device.remoteId.toString());
+                    } else {
+                      nav.goControlPanel(deviceId: device.remoteId.toString());
+                    }
                   },
                 );
               },
