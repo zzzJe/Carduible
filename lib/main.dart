@@ -2,13 +2,13 @@ import 'package:carduible/providers/bluetooth_provider.dart';
 import 'package:carduible/providers/settings_provider.dart';
 import 'package:carduible/services/navigation_service.dart';
 import 'package:carduible/theme/theme.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -21,7 +21,7 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  FlutterBluePlus.setLogLevel(LogLevel.verbose, color: true);
+  FlutterBluePlus.setLogLevel(LogLevel.none, color: true);
   await dotenv.load(fileName: ".env");
   final buttonSettingsProvider = ButtonSettingsProvider();
   await buttonSettingsProvider.loadSettings();
