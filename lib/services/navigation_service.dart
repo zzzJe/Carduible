@@ -1,6 +1,7 @@
 import 'package:carduible/ad/banner_ad.dart';
 import 'package:carduible/services/animation.dart';
 import 'package:carduible/widgets/control_page/control_page.dart';
+import 'package:carduible/widgets/racing_page/loading_racing_page.dart';
 import 'package:carduible/widgets/home_page/home_page.dart';
 import 'package:carduible/widgets/settings_page/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +51,15 @@ final routerConfig = GoRouter(
               ),
             ),
             GoRoute(
+              path: 'racingPanel/:deviceId',
+              pageBuilder: (context, state) => const CustomTransitionPage(
+                child: LoadingRacingPage(),
+                transitionDuration: iosTransitionDuration,
+                reverseTransitionDuration: iosReverseTransitionDuration,
+                transitionsBuilder: iosTransitionsBuilder,
+              ),
+            ),
+            GoRoute(
               path: 'settings',
               pageBuilder: (context, state) => CustomTransitionPage(
                 child: SettingsPage(),
@@ -78,6 +88,10 @@ class NavigationService {
 
   void goControlPanel({required String deviceId}) {
     _router.go('/home/controlPanel/$deviceId');
+  }
+
+  void goRacingPanel({required String deviceId}) {
+    _router.go('/home/racingPanel/$deviceId');
   }
 
   void goSettings() {

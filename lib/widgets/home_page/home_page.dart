@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:carduible/providers/bluetooth_provider.dart';
+import 'package:carduible/providers/settings_provider.dart';
 import 'package:carduible/services/navigation_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,9 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
-  List<BluetoothDevice> devicesList = [];
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  List<BluetoothDevice> devicesListPlus = [];
   StreamSubscription? scanSubscription;
   bool isScanning = false;
   late AnimationController _controller;
@@ -55,12 +57,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
       if (locationPermission.isGranted && bluetoothPermission.isGranted) {
         startScan();
-      } else if (!locationPermission.isGranted) {
-        locationPermission = await Permission.location.request();
-      } else if (!bluetoothPermission.isGranted) {
-        bluetoothPermission = await Permission.bluetooth.request();
       } else {
-        debugPrint("Permissions not granted\n");
+        if (!locationPermission.isGranted) {
+          locationPermission = await Permission.location.request();
+        }
+        if (!bluetoothPermission.isGranted) {
+          bluetoothPermission = await Permission.bluetooth.request();
+        }
       }
     } else if (Platform.isAndroid) {
       var locationPermission = await Permission.location.request();
@@ -71,12 +74,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           await FlutterBluePlus.turnOn();
         }
         startScan();
-      } else if (!locationPermission.isGranted) {
-        locationPermission = await Permission.location.request();
-      } else if (!bluetoothPermission.isGranted) {
-        bluetoothPermission = await Permission.bluetoothScan.request();
       } else {
-        debugPrint("Permissions not granted\n");
+        if (!locationPermission.isGranted) {
+          locationPermission = await Permission.location.request();
+        }
+        if (!bluetoothPermission.isGranted) {
+          bluetoothPermission = await Permission.bluetoothScan.request();
+        }
       }
     } else {
       debugPrint("Unsupported platform\n");
@@ -84,17 +88,24 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   Future<void> startScan() async {
+    if (isScanning) return;
+
+    await FlutterBluePlus.stopScan();
+    await scanSubscription?.cancel();
+    scanSubscription = null;
+
     setState(() {
       isScanning = true;
     });
-
     _controller.repeat();
 
-    await FlutterBluePlus.startScan(timeout: const Duration(seconds: 15));
+    await FlutterBluePlus.startScan(
+      timeout: const Duration(seconds: 15),
+    );
     scanSubscription = FlutterBluePlus.scanResults.listen((results) {
       if (mounted) {
         setState(() {
-          devicesList = results
+          devicesListPlus = results
               .map((r) => r.device)
               .where((device) => device.platformName != '') // 排除空名字裝置
               .toList();
@@ -113,6 +124,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    final isRacingMode =
+        Provider.of<ButtonSettingsProvider>(context, listen: true)
+            .getButtonState(9);
+    final nav = Provider.of<NavigationService>(context, listen: false);
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -152,7 +167,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               IconButton(
                 icon: const Icon(Icons.settings),
                 onPressed: () {
-                  Provider.of<NavigationService>(context, listen: false).goSettings();
+                  nav.goSettings();
                 },
               ),
             ],
@@ -168,14 +183,17 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     trailing: const Icon(Icons.bug_report),
                     tileColor: Theme.of(context).colorScheme.surfaceContainer,
                     onTap: () {
-                      Provider.of<NavigationService>(context, listen: false)
-                          .goControlPanel(deviceId: debugDeviceId);
+                      if (isRacingMode) {
+                        nav.goRacingPanel(deviceId: debugDeviceId);
+                      } else {
+                        nav.goControlPanel(deviceId: debugDeviceId);
+                      }
                     },
                   );
                 }
 
                 // 否則就顯示一般裝置
-                final device = devicesList[index - 1];
+                final device = devicesListPlus[index - 1];
                 return ListTile(
                   title: Text(device.platformName),
                   subtitle: Text(device.remoteId.toString()),
@@ -184,34 +202,17 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   onTap: () {
                     Provider.of<BluetoothProvider>(context, listen: false)
                         .setSelectedDevice(device);
-                    Provider.of<NavigationService>(context, listen: false)
-                        .goControlPanel(deviceId: device.remoteId.toString());
+                    if (isRacingMode) {
+                      nav.goRacingPanel(deviceId: device.remoteId.toString());
+                    } else {
+                      nav.goControlPanel(deviceId: device.remoteId.toString());
+                    }
                   },
                 );
               },
-              childCount: devicesList.length + 1, // 多加一個 for debug
+              childCount: devicesListPlus.length + 1, // 多加一個 for debug
             ),
           ),
-
-          // SliverList(
-          //   delegate: SliverChildBuilderDelegate(
-          //     childCount: devicesList.length,
-          //     (context, index) {
-          //       return ListTile(
-          //         title: Text(devicesList[index].platformName),
-          //         subtitle: Text(devicesList[index].remoteId.toString()),
-          //         trailing: const Icon(Icons.bluetooth),
-          //         tileColor: Theme.of(context).colorScheme.surfaceContainer,
-          //         onTap: () {
-          //           Provider.of<BluetoothProvider>(context, listen: false)
-          //               .setSelectedDevice(devicesList[index]);
-          //           Provider.of<NavigationService>(context, listen: false)
-          //               .goControlPanel(deviceId: devicesList[index].remoteId.toString());
-          //         },
-          //       );
-          //     },
-          //   ),
-          // ),
         ],
       ),
     );
