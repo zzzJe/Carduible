@@ -21,7 +21,7 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  FlutterBluePlus.setLogLevel(LogLevel.verbose, color: true);
+  FlutterBluePlus.setLogLevel(LogLevel.none, color: true);
   await dotenv.load(fileName: ".env");
   final buttonSettingsProvider = ButtonSettingsProvider();
   await buttonSettingsProvider.loadSettings();
@@ -51,14 +51,16 @@ class InitProvider extends StatelessWidget {
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: routerConfig,
-      theme: ThemeData(useMaterial3: true, colorScheme: MaterialTheme.lightScheme()),
-      darkTheme: ThemeData(useMaterial3: true, colorScheme: MaterialTheme.darkScheme()),
+      theme: ThemeData(
+          useMaterial3: true, colorScheme: MaterialTheme.lightScheme()),
+      darkTheme: ThemeData(
+          useMaterial3: true, colorScheme: MaterialTheme.darkScheme()),
     );
   }
 }
