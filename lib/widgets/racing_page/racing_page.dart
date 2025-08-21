@@ -68,7 +68,7 @@ class _RacingPageInnerState extends State<RacingPageInner> {
     ]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     circularTimerUtil = CircularTimerUtil(
-      duration: Duration(milliseconds: 200),
+      duration: Duration(milliseconds: 100),
       callback: sendMessage,
     );
   }
@@ -122,6 +122,46 @@ class _RacingPageInnerState extends State<RacingPageInner> {
           // reverse
           reversePressed ? 1 : 0,
         ],
+        withoutResponse: c.properties.writeWithoutResponse,
+      );
+    } catch (e) {
+      debugPrint('Error sending message: $e');
+    }
+  }
+
+  Future<void> resetSpeed() async {
+    BluetoothProvider bluetooth = Provider.of<BluetoothProvider>(
+      context,
+      listen: false,
+    );
+    if (bluetooth.isDisconnected()) {
+      showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return AlertDialog(
+            title: const Text("Disconnected"),
+            icon: const Icon(Icons.bluetooth_disabled),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(dialogContext);
+                  Provider.of<NavigationService>(
+                    context,
+                    listen: false,
+                  ).goHome();
+                },
+                child: const Text("Confirm"),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+    try {
+      BluetoothCharacteristic c = bluetooth.characteristic!;
+      c.write(
+        '0'.codeUnits,
         withoutResponse: c.properties.writeWithoutResponse,
       );
     } catch (e) {
@@ -317,6 +357,7 @@ class _RacingPageInnerState extends State<RacingPageInner> {
           left: 16,
           child: IconButton(
             onPressed: () async {
+              resetSpeed();
               Provider.of<NavigationService>(context, listen: false).goHome();
               await Provider.of<BluetoothProvider>(context, listen: false).disconnectFromDevice();
             },
