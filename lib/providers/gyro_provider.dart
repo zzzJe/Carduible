@@ -28,7 +28,7 @@ class GyroProvider extends ChangeNotifier {
   }
 
   void _startListening() {
-    _gyroSub = gyroscopeEventStream(samplingPeriod: SensorInterval.uiInterval)
+    _gyroSub = gyroscopeEventStream(samplingPeriod: SensorInterval.gameInterval)
         .listen((GyroscopeEvent event) {
       _gyroEventPrev = _gyroEvent;
       _gyroEvent = event;
