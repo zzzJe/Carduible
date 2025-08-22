@@ -51,7 +51,7 @@ final routerConfig = GoRouter(
               ),
             ),
             GoRoute(
-              path: 'racingPanel/:deviceId',
+              path: 'racingPanel/:deviceId/:deviceName',
               pageBuilder: (context, state) => const CustomTransitionPage(
                 child: LoadingRacingPage(),
                 transitionDuration: iosTransitionDuration,
@@ -90,8 +90,8 @@ class NavigationService {
     _router.go('/home/controlPanel/$deviceId');
   }
 
-  void goRacingPanel({required String deviceId}) {
-    _router.go('/home/racingPanel/$deviceId');
+  void goRacingPanel({required String deviceId, required String deviceName}) {
+    _router.go('/home/racingPanel/$deviceId/$deviceName');
   }
 
   void goSettings() {
