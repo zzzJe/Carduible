@@ -96,13 +96,11 @@ class SettingsPage extends StatelessWidget {
                       [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Text(
-                              'Mode',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          child: Text(
+                            'Mode',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -120,13 +118,11 @@ class SettingsPage extends StatelessWidget {
                         const SizedBox(height: 16),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Text(
-                              'Control Panel',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          child: Text(
+                            'Control Panel',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
