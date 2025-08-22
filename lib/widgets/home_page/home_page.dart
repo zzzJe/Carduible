@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage>
                     tileColor: Theme.of(context).colorScheme.surfaceContainer,
                     onTap: () {
                       if (isRacingMode) {
-                        nav.goRacingPanel(deviceId: debugDeviceId);
+                        nav.goRacingPanel(deviceId: debugDeviceId, deviceName: debugDeviceId);
                       } else {
                         nav.goControlPanel(deviceId: debugDeviceId);
                       }
@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage>
                     Provider.of<BluetoothProvider>(context, listen: false)
                         .setSelectedDevice(device);
                     if (isRacingMode) {
-                      nav.goRacingPanel(deviceId: device.remoteId.toString());
+                      nav.goRacingPanel(deviceId: device.remoteId.toString(), deviceName: device.platformName);
                     } else {
                       nav.goControlPanel(deviceId: device.remoteId.toString());
                     }

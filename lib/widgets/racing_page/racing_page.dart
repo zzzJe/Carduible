@@ -74,6 +74,30 @@ class _RacingPageInnerState extends State<RacingPageInner> {
     );
   }
 
+  void showErrorDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text("Disconnected"),
+          icon: const Icon(Icons.bluetooth_disabled),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+                Provider.of<NavigationService>(
+                  context,
+                  listen: false,
+                ).goHome();
+              },
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> sendMessage() async {
     final deviceId = GoRouterState.of(context).pathParameters['deviceId'];
     BluetoothProvider bluetooth = Provider.of<BluetoothProvider>(
@@ -81,27 +105,8 @@ class _RacingPageInnerState extends State<RacingPageInner> {
       listen: false,
     );
     if (bluetooth.isDisconnected() && deviceId != debugDeviceId) {
-      showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return AlertDialog(
-            title: const Text("Disconnected"),
-            icon: const Icon(Icons.bluetooth_disabled),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(dialogContext);
-                  Provider.of<NavigationService>(
-                    context,
-                    listen: false,
-                  ).goHome();
-                },
-                child: const Text("Confirm"),
-              ),
-            ],
-          );
-        },
-      );
+      circularTimerUtil.destroy();
+      showErrorDialog();
       return;
     }
     try {
@@ -131,34 +136,15 @@ class _RacingPageInnerState extends State<RacingPageInner> {
     }
   }
 
-  Future<void> resetSpeed() async {
+  Future<void> resetSpeed(bool showDisconnectDialog) async {
     final deviceId = GoRouterState.of(context).pathParameters['deviceId'];
     BluetoothProvider bluetooth = Provider.of<BluetoothProvider>(
       context,
       listen: false,
     );
-    if (bluetooth.isDisconnected() && deviceId != debugDeviceId) {
-      showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return AlertDialog(
-            title: const Text("Disconnected"),
-            icon: const Icon(Icons.bluetooth_disabled),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(dialogContext);
-                  Provider.of<NavigationService>(
-                    context,
-                    listen: false,
-                  ).goHome();
-                },
-                child: const Text("Confirm"),
-              ),
-            ],
-          );
-        },
-      );
+    if (showDisconnectDialog && bluetooth.isDisconnected() && deviceId != debugDeviceId) {
+      circularTimerUtil.destroy();
+      showErrorDialog();
       return;
     }
     try {
@@ -174,7 +160,7 @@ class _RacingPageInnerState extends State<RacingPageInner> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceId = GoRouterState.of(context).pathParameters['deviceId'];
+    final deviceName = GoRouterState.of(context).pathParameters['deviceName'];
 
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -328,17 +314,17 @@ class _RacingPageInnerState extends State<RacingPageInner> {
                               ),
                             ),
                             Positioned(
-                              // deviceId
+                              // deviceName
                               top: 0,
                               left: 0,
                               right: 0,
                               bottom: centralRadius,
                               child: Center(
                                 child: Text(
-                                  deviceId ?? 'Anonymous',
+                                  deviceName?.trim() ?? 'Anonymous',
                                   style: GoogleFonts.orbitron(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -360,7 +346,7 @@ class _RacingPageInnerState extends State<RacingPageInner> {
           left: 16,
           child: IconButton(
             onPressed: () async {
-              resetSpeed();
+              resetSpeed(true);
               Provider.of<NavigationService>(context, listen: false).goHome();
               await Provider.of<BluetoothProvider>(context, listen: false).disconnectFromDevice();
             },
