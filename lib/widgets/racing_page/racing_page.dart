@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:carduible/providers/gyro_provider.dart';
 import 'package:carduible/providers/bluetooth_provider.dart';
 import 'package:carduible/services/navigation_service.dart';
+import 'package:carduible/widgets/home_page/home_page.dart';
 import 'package:carduible/widgets/racing_page/throttle.dart';
 import 'package:carduible/widgets/racing_page/reverse.dart';
 import 'package:carduible/widgets/racing_page/long_press.dart';
@@ -74,11 +75,12 @@ class _RacingPageInnerState extends State<RacingPageInner> {
   }
 
   Future<void> sendMessage() async {
+    final deviceId = GoRouterState.of(context).pathParameters['deviceId'];
     BluetoothProvider bluetooth = Provider.of<BluetoothProvider>(
       context,
       listen: false,
     );
-    if (bluetooth.isDisconnected()) {
+    if (bluetooth.isDisconnected() && deviceId != debugDeviceId) {
       showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
@@ -130,11 +132,12 @@ class _RacingPageInnerState extends State<RacingPageInner> {
   }
 
   Future<void> resetSpeed() async {
+    final deviceId = GoRouterState.of(context).pathParameters['deviceId'];
     BluetoothProvider bluetooth = Provider.of<BluetoothProvider>(
       context,
       listen: false,
     );
-    if (bluetooth.isDisconnected()) {
+    if (bluetooth.isDisconnected() && deviceId != debugDeviceId) {
       showDialog(
         context: context,
         builder: (BuildContext dialogContext) {

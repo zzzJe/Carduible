@@ -94,11 +94,38 @@ class SettingsPage extends StatelessWidget {
                   sliver: SliverList(
                     delegate: SliverChildListDelegate(
                       [
-                        Center(
-                            child: const Text(
-                          'Control Panel Settings',
-                          style: TextStyle(fontSize: 18),
-                        )),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Mode',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        ListTile(
+                          leading: Icon(icons[9]),
+                          title: Text('Racing Mode'),
+                          subtitle: Text('Activate racing mode'),
+                          trailing: Switch(
+                            value: settingsProvider.getButtonState(9),
+                            onChanged: (value) {
+                              settingsProvider.setButtonState(9, value);
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Control Panel',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                         ...List.generate(
                             ButtonSettingsProvider.numControlButtons, (index) {
                           return ListTile(
@@ -115,23 +142,6 @@ class SettingsPage extends StatelessWidget {
                           );
                         }),
                         const SizedBox(height: 16),
-                        Center(
-                            child: const Text(
-                          'Racing Settings',
-                          style: TextStyle(fontSize: 18),
-                        )),
-                        ListTile(
-                          leading: Icon(icons[9]),
-                          title: Text('Racing Mode'),
-                          subtitle: Text('Activate racing mode'),
-                          trailing: Switch(
-                            value: settingsProvider.getButtonState(9),
-                            onChanged: (value) {
-                              settingsProvider.setButtonState(9, value);
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 16),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: ElevatedButton(
@@ -147,6 +157,7 @@ class SettingsPage extends StatelessWidget {
                             child: const Text('Reset to Defaults'),
                           ),
                         ),
+                        const SizedBox(height: 16),
                       ],
                     ),
                   ),
