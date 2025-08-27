@@ -38,6 +38,10 @@ class _RacingPageInnerState extends State<RacingPageInner> {
   bool reversePressed = false;
   bool gyroResetPressing = false;
 
+  int angleCache = 0;
+  int throttleCache = 0;
+  bool reverseCache = false;
+
   static const angleLimit = 90;
 
   final ringColorRest = const Color.fromARGB(255, 150, 150, 150);
@@ -59,6 +63,14 @@ class _RacingPageInnerState extends State<RacingPageInner> {
           )!
         : dirIndicatorInactive;
   }
+
+  int get getAngle =>
+      Provider.of<GyroProvider>(context, listen: false)
+          .getAngle
+          .toInt()
+          .clamp(-angleLimit, angleLimit) +
+      angleLimit;
+  int get getThrottle => (throttleRatio * 100).toInt();
 
   @override
   void initState() {
@@ -111,28 +123,32 @@ class _RacingPageInnerState extends State<RacingPageInner> {
     }
     try {
       BluetoothCharacteristic c = bluetooth.characteristic!;
-      c.write(
+      await c.write(
         [
-          // angle indicator
-          0xF0,
-          // angle
-          Provider.of<GyroProvider>(context, listen: false)
-              .getAngle
-              .toInt()
-              .clamp(-angleLimit, angleLimit) + angleLimit,
-          // throttle indicator
-          0xF1,
-          // throttle
-          (throttleRatio * 100).toInt(),
-          // reverse indicator
-          0xF2,
-          // reverse
-          reversePressed ? 1 : 0,
+          if (angleCache != getAngle) ...[
+            // angle indicator
+            0xF0,
+            getAngle,
+          ],
+          if (throttleCache != getThrottle) ...[
+            // throttle indicator
+            0xF1,
+            getThrottle,
+          ],
+          if (reverseCache != reversePressed) ...[
+            // reverse indicator
+            0xF2,
+            reversePressed ? 1 : 0,
+          ],
         ],
         withoutResponse: c.properties.writeWithoutResponse,
       );
     } catch (e) {
       debugPrint('Error sending message: $e');
+    } finally {
+      angleCache = getAngle;
+      throttleCache = getThrottle;
+      reverseCache = reversePressed;
     }
   }
 
@@ -142,7 +158,9 @@ class _RacingPageInnerState extends State<RacingPageInner> {
       context,
       listen: false,
     );
-    if (showDisconnectDialog && bluetooth.isDisconnected() && deviceId != debugDeviceId) {
+    if (showDisconnectDialog &&
+        bluetooth.isDisconnected() &&
+        deviceId != debugDeviceId) {
       circularTimerUtil.destroy();
       showErrorDialog();
       return;
@@ -348,7 +366,8 @@ class _RacingPageInnerState extends State<RacingPageInner> {
             onPressed: () async {
               resetSpeed(true);
               Provider.of<NavigationService>(context, listen: false).goHome();
-              await Provider.of<BluetoothProvider>(context, listen: false).disconnectFromDevice();
+              await Provider.of<BluetoothProvider>(context, listen: false)
+                  .disconnectFromDevice();
             },
             icon: Icon(Icons.arrow_back),
           ),
